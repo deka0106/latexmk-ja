@@ -2,20 +2,48 @@ FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NOWARNINGS yes
+ENV PATH /usr/local/texlive/2019/bin/x86_64-linux:$PATH
 
 RUN apt-get update \
     && apt-get -y install \
-    texlive-lang-cjk \
-    texlive-fonts-recommended \
-    texlive-fonts-extra \
-    texlive-extra-utils \
-    texlive-bibtex-extra \
-    texlive-science \
-    latexmk \
+    build-essential \
+    wget \
+    git \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    ghostscript \
+    perl \
+    python3-pip \
+    python3-dev \
     && apt-get autoremove -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && pip3 install pygments \
+    && mkdir /tmp/install-tl-unx \
+    && wget -O - ftp://tug.org/historic/systems/texlive/2019/install-tl-unx.tar.gz \
+    | tar -xzv -C /tmp/install-tl-unx --strip-components=1 \
+    && /bin/echo -e 'selected_scheme scheme-basic\ntlpdbopt_install_docfiles 0\ntlpdbopt_install_srcfiles 0' \
+    > /tmp/install-tl-unx/texlive.profile \
+    && /tmp/install-tl-unx/install-tl \
+    --profile /tmp/install-tl-unx/texlive.profile \
+    && tlmgr update --self \
+    && tlmgr install \
+    collection-bibtexextra \
+    collection-fontsrecommended \
+    collection-langenglish \
+    collection-langjapanese \
+    collection-latexextra \
+    collection-latexrecommended \
+    collection-luatex \
+    collection-mathscience \
+    collection-plaingeneric \
+    collection-xetex \
+    latexmk \
+    latexdiff \
+    && rm -r /tmp/install-tl-unx
 
 WORKDIR /workdir
+
+COPY .latexmkrc /root/
 
 CMD ["bash"]
