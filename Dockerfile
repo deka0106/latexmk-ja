@@ -7,6 +7,7 @@ ENV PATH /usr/local/texlive/2019/bin/x86_64-linux:$PATH
 RUN apt-get update \
     && apt-get -y install \
     build-essential \
+    curl \
     wget \
     git \
     libfontconfig1-dev \
@@ -40,7 +41,15 @@ RUN apt-get update \
     collection-xetex \
     latexmk \
     latexdiff \
-    && rm -r /tmp/install-tl-unx
+    latexindent \
+    && rm -r /tmp/install-tl-unx \
+    && curl -L http://cpanmin.us | perl - App::cpanminus \
+    && cpanm \
+    YAML::Tiny \
+    File::HomeDir \
+    Unicode::GCString \
+    Log::Log4perl \
+    Log::Dispatch
 
 WORKDIR /workdir
 
