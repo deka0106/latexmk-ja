@@ -60,4 +60,10 @@ RUN apt-get update \
 
 WORKDIR /workdir
 
+COPY .latexmkrc /tmp/
+
+COPY entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["entrypoint.sh"]
+
 CMD ["bash"]
