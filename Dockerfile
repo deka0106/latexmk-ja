@@ -1,3 +1,7 @@
+# Copyright 2020 Deka
+# Released under the MIT license
+# https://opensource.org/licenses/MIT
+
 FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND noninteractive
