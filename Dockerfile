@@ -41,11 +41,14 @@ RUN apt-get update \
     collection-latexrecommended \
     collection-luatex \
     collection-mathscience \
+    collection-pictures \
     collection-plaingeneric \
     collection-xetex \
     latexmk \
     latexdiff \
     latexindent \
+    newtx \
+    newpx \
     && rm -r /tmp/install-tl-unx \
     && curl -L http://cpanmin.us | perl - App::cpanminus \
     && cpanm \
